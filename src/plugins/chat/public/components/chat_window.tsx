@@ -1,7 +1,7 @@
 /*
-* Copyright OpenSearch Contributors
-* SPDX-License-Identifier: Apache-2.0
-*/
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 /* eslint-disable no-console */
 
@@ -10,27 +10,15 @@ import { CoreStart } from '../../../../core/public';
 import { useChatContext } from '../contexts/chat_context';
 import { ChatEventHandler } from '../services/chat_event_handler';
 import { useOpenSearchDashboards } from '../../../opensearch_dashboards_react/public';
-import {
-  ContextProviderStart,
-  AssistantActionService,
-} from '../../../context_provider/public';
+import { ContextProviderStart, AssistantActionService } from '../../../context_provider/public';
 import type { ToolDefinition } from '../../../context_provider/public';
-import {
-  // eslint-disable-next-line prettier/prettier
-  type Event as ChatEvent,
-} from '../../common/events';
-import type {
-  Message,
-  AssistantMessage,
-  UserMessage,
-  ToolMessage,
-} from '../../common/types';
+import type { Event as ChatEvent } from '../../common/events';
+import type { Message, UserMessage } from '../../common/types';
 import { ChatLayoutMode } from './chat_header_button';
 import { ChatContainer } from './chat_container';
 import { ChatHeader } from './chat_header';
 import { ChatMessages } from './chat_messages';
 import { ChatInput } from './chat_input';
-import { ContextTreeView } from './context_tree_view';
 import { useGraphTimeseriesDataAction } from '../actions/graph_timeseries_data_action';
 
 interface ChatWindowProps {
@@ -63,14 +51,7 @@ function ChatWindowContent({
 
   // Create the event handler using useMemo
   const eventHandler = useMemo(
-    () =>
-      new ChatEventHandler(
-        service,
-        chatService,
-        setTimeline,
-        setIsStreaming,
-        () => timeline
-      ),
+    () => new ChatEventHandler(service, chatService, setTimeline, setIsStreaming, () => timeline),
     [service, chatService, timeline] // Only recreate if services change
   );
 
@@ -108,10 +89,7 @@ function ChatWindowContent({
     setIsStreaming(true);
 
     try {
-      const { observable, userMessage } = await chatService.sendMessage(
-        messageContent,
-        timeline
-      );
+      const { observable, userMessage } = await chatService.sendMessage(messageContent, timeline);
 
       // Add user message immediately to timeline
       const timelineUserMessage: UserMessage = {
@@ -173,9 +151,7 @@ function ChatWindowContent({
     if (message.role !== 'user') return;
 
     // Find the index of this message in the timeline
-    const messageIndex = timeline.findIndex(
-      (item) => item.id === message.id
-    );
+    const messageIndex = timeline.findIndex((item) => item.id === message.id);
 
     if (messageIndex === -1) return;
 

@@ -19,6 +19,7 @@ import { MetricsPage } from './pages/metrics';
 import { EditorContextProvider } from './context';
 import { TraceDetails } from './pages/traces/trace_details/trace_view';
 import { usePageContext } from '../../../context_provider/public';
+import { useQueryErrorContext } from '../hooks/use_query_error_context';
 
 // Route component props interface
 interface ExploreRouteProps {
@@ -46,6 +47,9 @@ const ExplorePageContextProvider: React.FC<{
     }),
     categories: ['static', 'explore'],
   });
+
+  // Capture query error information for AI assistant
+  useQueryErrorContext();
 
   return <>{children}</>;
 };
